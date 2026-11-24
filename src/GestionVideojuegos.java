@@ -55,22 +55,8 @@ public class GestionVideojuegos {
                 "Acción", 2022, 5));
     }
 
-    public int mostrarCantidad(){
-        return videojuegosLista.size();
-    }
-
     public void agregar(Videojuego juego) throws Exception {
-
-        if(juego.getCodigoId() <= 0){
-            throw new Exception("El ID ingresado no es valido");
-        }
-
-        if(juego.getNombre().isBlank() || juego.getNombre() == null ||
-                !juego.getNombre().matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\\s]+$")){
-            throw new Exception("El nombre ingresado no es valido");
-        }
-
-        if (unico(juego)){
+        if (juego != null && unico(juego)){
             videojuegosLista.add(juego);
             ordenarId();
         }else {
@@ -82,13 +68,6 @@ public class GestionVideojuegos {
         videojuegosLista.sort(Comparator.comparingInt(Videojuego::getCodigoId).reversed());
     }
 
-    public ArrayList<Videojuego> obtenerRanking() {
-        // Copia de la lista: la lista principal conserva su orden por código
-        ArrayList<Videojuego> ranking = new ArrayList<>(videojuegosLista);
-        ranking.sort(Comparator.comparingInt(Videojuego::getVotos).reversed());
-        return ranking;
-    }
-
     public boolean unico(Videojuego juego) {
         for (Videojuego v : videojuegosLista) {
             if (v.getCodigoId() == juego.getCodigoId() || v.getNombre().equals(juego.getNombre())) {
@@ -96,26 +75,6 @@ public class GestionVideojuegos {
             }
         }
         return true;
-    }
-
-    public ArrayList<Videojuego> buscarNombre(String nombre){
-        ArrayList<Videojuego> resultado = new ArrayList<>();
-        for (Videojuego v : videojuegosLista){
-            if (v.getNombre().equals(nombre)){
-                resultado.add(v);
-            }
-        }
-        return resultado;
-    }
-
-    public ArrayList<Videojuego> buscarEstudio(String nombre){
-        ArrayList<Videojuego> resultado = new ArrayList<>();
-        for (Videojuego v : videojuegosLista){
-            if (v.getEstudio().equals(nombre)){
-                resultado.add(v);
-            }
-        }
-        return resultado;
     }
 
 
