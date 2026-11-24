@@ -78,6 +78,25 @@ public class GestionVideojuegos {
         }
     }
 
+    public ArrayList<Videojuego> buscarNombre(String nombre){
+        ArrayList<Videojuego> resultado = new ArrayList<>();
+        for (Videojuego v : videojuegosLista){
+            if (v.getNombre().equals(nombre)){
+                resultado.add(v);
+            }
+        }
+        return resultado;
+    }
+
+    public ArrayList<Videojuego> buscarEstudio(String nombre){
+        ArrayList<Videojuego> resultado = new ArrayList<>();
+        for (Videojuego v : videojuegosLista){
+            if (v.getEstudio().equals(nombre)){
+                resultado.add(v);
+            }
+        }
+        return resultado;
+    }
 
     public void ordenarId() {
         videojuegosLista.sort(Comparator.comparingInt(Videojuego::getCodigoId).reversed());
