@@ -102,6 +102,13 @@ public class GestionVideojuegos {
         videojuegosLista.sort(Comparator.comparingInt(Videojuego::getCodigoId).reversed());
     }
 
+    public ArrayList<Videojuego> obtenerRanking() {
+        // Copia: la lista principal conserva su orden por código
+        ArrayList<Videojuego> ranking = new ArrayList<>(videojuegosLista);
+        ranking.sort(Comparator.comparingInt(Videojuego::getVotos).reversed());
+        return ranking;
+    }
+
     public boolean unico(Videojuego juego) {
         for (Videojuego v : videojuegosLista) {
             if (v.getCodigoId() == juego.getCodigoId() || v.getNombre().equals(juego.getNombre())) {

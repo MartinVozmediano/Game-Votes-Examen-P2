@@ -27,6 +27,11 @@ public class VentanaPrincipal {
     private JButton btnRestarVotos;
     private JTextField txtEditAnio;
     private JComboBox comboBox1;
+    private JPanel panelRanking;
+    private JLabel lblTituloRanking;
+    private JList lstRanking;
+    private JButton btnActualizarRanking;
+    private JScrollPane scrollRanking;
 
     public VentanaPrincipal() {
         btnRegistrar.addActionListener(new ActionListener() {
