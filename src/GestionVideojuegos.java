@@ -55,8 +55,22 @@ public class GestionVideojuegos {
                 "Acción", 2022, 5));
     }
 
+    public int mostrarCantidad(){
+        return videojuegosLista.size();
+    }
+
     public void agregar(Videojuego juego) throws Exception {
-        if (juego != null && unico(juego)){
+
+        if(juego.getCodigoId() <= 0){
+            throw new Exception("El ID ingresado no es valido");
+        }
+
+        if(juego.getNombre().isBlank() || juego.getNombre() == null ||
+                !juego.getNombre().matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\\s]+$")){
+            throw new Exception("El nombre ingresado no es valido");
+        }
+
+        if (unico(juego)){
             videojuegosLista.add(juego);
             ordenarId();
         }else {
@@ -76,6 +90,8 @@ public class GestionVideojuegos {
         }
         return true;
     }
+
+
 
 
 }
