@@ -16,7 +16,13 @@ public class Videojuego {
         this.votos = votos;
     }
 
-
+    public Videojuego(int codigoId, String nombre, String estudio, String categoria, int anioLan) {
+        this.codigoId = codigoId;
+        this.nombre = nombre;
+        this.estudio = estudio;
+        this.categoria = categoria;
+        this.anioLan = anioLan;
+    }
 
     public int getCodigoId() {
         return codigoId;
