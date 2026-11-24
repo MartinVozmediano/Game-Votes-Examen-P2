@@ -22,10 +22,21 @@ public class Videojuego {
         this.estudio = estudio;
         this.categoria = categoria;
         this.anioLan = anioLan;
+        this.votos = 0;
+    }
+
+    public String textoRanking() {
+        return codigoId + " | " + nombre + " | votos: " + votos;
     }
 
     public int getCodigoId() {
         return codigoId;
+    }
+
+    @Override
+    public String toString() {
+        return codigoId + " | " + nombre + " | " + estudio + " | "
+                + categoria + " | " + anioLan + " | votos: " + votos;
     }
 
     public void setCodigoId(int codigoId) {

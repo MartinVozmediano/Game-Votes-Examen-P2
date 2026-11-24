@@ -1,3 +1,4 @@
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -9,7 +10,7 @@ public class GestionVideojuegos {
 
         videojuegosLista = new ArrayList<>();
         predefinir();
-
+        ordenarId();
     }
 
     public void predefinir() {
@@ -70,6 +71,17 @@ public class GestionVideojuegos {
             throw new Exception("El nombre ingresado no es valido");
         }
 
+        if (juego.getEstudio() == null || juego.getEstudio().isBlank()) {
+            throw new Exception("El estudio es obligatorio");
+
+        }
+
+        if (juego.getCategoria() == null || juego.getCategoria().isBlank()) {
+            throw new Exception("La categoría es obligatoria");
+        }
+
+        validarAnio(juego.getAnioLan());
+
         if (unico(juego)){
             videojuegosLista.add(juego);
             ordenarId();
@@ -88,6 +100,112 @@ public class GestionVideojuegos {
         return resultado;
     }
 
+    public void validarAnio(int anio) throws Exception {
+        if (anio < 1980 || anio > Year.now().getValue()) {
+            throw new Exception("El año debe estar entre 1980 y el año actual");
+        }
+    }
+
+    public int busquedaBinaria(int codigo) {
+        int inicio = 0;
+        int fin = videojuegosLista.size() - 1;
+        while (inicio <= fin) {
+            int medio = (inicio + fin) / 2;
+            int actual = videojuegosLista.get(medio).getCodigoId();
+            if (actual == codigo) {
+                return medio;
+            }
+            if (actual > codigo) {
+                inicio = medio + 1;
+            } else {
+                fin = medio - 1;
+            }
+        }
+        return -1;
+    }
+
+    public void editar(int indice, String nombre, String estudio,
+                       String categoria, String anioTexto) throws Exception {
+        if (indice < 0 || indice >= videojuegosLista.size()) {
+            throw new Exception("No hay un videojuego seleccionado");
+        }
+        if (nombre == null || nombre.isBlank()) {
+            throw new Exception("El nombre es obligatorio");
+        }
+        if (estudio == null || estudio.isBlank()) {
+            throw new Exception("El estudio es obligatorio");
+        }
+        if (categoria == null || categoria.isBlank()) {
+            throw new Exception("La categoría es obligatoria");
+        }
+        int anio;
+        try {
+            anio = Integer.parseInt(anioTexto.trim());
+        } catch (NumberFormatException e) {
+            throw new Exception("El año debe ser un número entero");
+        }
+        validarAnio(anio);
+
+
+
+        Videojuego v = videojuegosLista.get(indice);
+        v.setNombre(nombre.trim());
+        v.setEstudio(estudio.trim());
+        v.setCategoria(categoria);
+        v.setAnioLan(anio);
+    }
+
+    public ArrayList<Videojuego> buscarTexto(String texto, String criterio) {
+        if (texto == null || texto.trim().isEmpty()) {
+            throw new IllegalArgumentException("Ingrese un texto para buscar");
+        }
+        ArrayList<Videojuego> resultado = new ArrayList<>();
+        for (Videojuego v : videojuegosLista) {
+            boolean enNombre = v.getNombre().contains(texto);
+            boolean enEstudio = v.getEstudio().contains(texto);
+            boolean coincide;
+            if ("Nombre".equals(criterio)) {
+                coincide = enNombre;
+            } else if ("Estudio".equals(criterio)) {
+                coincide = enEstudio;
+            } else {
+                coincide = enNombre || enEstudio;
+            }
+            if (coincide) {
+                resultado.add(v);
+            }
+        }
+        return resultado;
+    }
+
+    public void eliminar(int indice) throws Exception {
+        if (indice < 0 || indice >= videojuegosLista.size()) {
+            throw new Exception("No hay un videojuego seleccionado");
+        }
+        videojuegosLista.remove(indice);
+    }
+
+    public void restarVotos(int indice, int cantidad) throws Exception {
+        if (indice < 0 || indice >= videojuegosLista.size()) {
+            throw new Exception("No hay un videojuego seleccionado");
+        }
+        Videojuego v = videojuegosLista.get(indice);
+        if (v.getVotos() < cantidad) {
+            throw new Exception("El videojuego solo tiene " + v.getVotos() + " votos");
+        }
+        v.setVotos(v.getVotos() - cantidad);
+    }
+
+    public ArrayList<Videojuego> obtenerRanking() {
+        ArrayList<Videojuego> copia = new ArrayList<>(videojuegosLista);
+        copia.sort(Comparator.comparingInt(Videojuego::getVotos).reversed());
+        return copia;
+    }
+
+    public Videojuego obtener(int indice) {
+        return videojuegosLista.get(indice);
+    }
+
     public ArrayList<Videojuego> buscarEstudio(String nombre){
         ArrayList<Videojuego> resultado = new ArrayList<>();
         for (Videojuego v : videojuegosLista){
@@ -100,6 +218,10 @@ public class GestionVideojuegos {
 
     public void ordenarId() {
         videojuegosLista.sort(Comparator.comparingInt(Videojuego::getCodigoId).reversed());
+    }
+
+    public ArrayList<Videojuego> getLista() {
+        return videojuegosLista;
     }
 
     public boolean unico(Videojuego juego) {
