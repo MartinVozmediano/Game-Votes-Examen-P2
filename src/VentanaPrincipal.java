@@ -12,6 +12,11 @@ public class VentanaPrincipal {
     private JComboBox cbxCategoria;
     private JButton btnRegistrar;
     private JTextField textAnioDeLanzamiento;
+    private JPanel panelRanking;
+    private JLabel lblTituloRanking;
+    private JScrollPane scrollRanking;
+    private JList lstRanking;
+    private JButton btnActualizarRanking;
 
     public VentanaPrincipal() {
         btnRegistrar.addActionListener(new ActionListener() {
