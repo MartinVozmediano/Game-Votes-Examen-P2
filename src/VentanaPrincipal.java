@@ -11,6 +11,7 @@ public class VentanaPrincipal {
     private JTextField textEstudio;
     private JComboBox cbxCategoria;
     private JButton btnRegistrar;
+    private JTextField textAnioDeLanzamiento;
 
     public VentanaPrincipal() {
         btnRegistrar.addActionListener(new ActionListener() {
